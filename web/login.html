@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWB-login</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0px;
+            background-image: url('https://ts1.cn.mm.bing.net/th/id/R-C.e809930d59cab80e14b36c68de12d481?rik=P9tyK5qVHit38g&riu=http%3a%2f%2fwww.deskcar.com%2fdesktop%2ffengjing%2f2014310210232%2f3.jpg&ehk=zyRNFpggpttfvz30RB9bDMHdtPKF74lbWrjByPcMCrI%3d&risl=&pid=ImgRaw&r=0');
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        div{
+            background: none;
+        }
+        input{
+            background: none;   
+        }
+        button{
+            background: none;
+        }
+        .head-box{
+            display: flex;
+            width: 100%;
+            height: 150px;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: aliceblue;
+        }
+        .login-container{
+            width: 100%;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-table{
+            width: 50%;
+            height: 350px;
+            background-color: rgba(240, 255, 255, 0.679);
+            border-radius: 15px;
+            text-align: center;
+        }
+        .input-data{
+            margin-top: 10%;
+            font-size: 20px;
+        }
+        .login-data{
+            width: 80%;
+            height: 40px;
+            font-size: 25px;
+            border-color: #fff;
+            border-radius: 8px;
+            background-color:rgba(194, 212, 228, 0.838);
+        }
+        button{
+            font-size: 18px;
+            color: #000000;
+            height: 35px;
+            width: 35%;
+            border-radius: 5px;
+            background-color: rgb(146, 173, 191);
+        }
+    </style>
+    <script src="https://cdn.staticfile.net/jquery/3.7.1/jquery.js"></script>
+</head>
+<body>
+    <div class="head-box">
+        欢迎进入RWB登录界面
+    </div>
+    <div class="login-container">
+        <div class="login-table">
+            <div class="input-data">
+                账号 <input id="login-account" class="login-data" type="text">
+                <br><br>
+                密码 <input id="login-password" class="login-data" type="password">
+                <div style="color: red;height: 20px;" id="tip"></div><br><br>
+                <div style="display: flex;gap: 40px;justify-content: center;">
+                    <button id="but-login" class="but-login">登录</button>
+                    <button id="but-regist" class="but-regist">注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(()=>{
+            $('#but-login').on('click', ()=>{
+                $.ajax({
+                    url: 'http://127.0.0.1:8080/checklogin',
+                    type: 'GET',
+                    data: {
+                        account: $('#login-account').val(),
+                        password: $('#login-password').val()
+                    },
+                    success: (res)=>{
+                        const element = document.getElementById('tip')
+                        element.innerText = ''
+                        if(res.code == '0'){
+                            const textNode = document.createTextNode('账号登录成功！等待跳转...')
+                            element.appendChild(textNode)
+                            element.style.color = 'green'
+                            console.log(res)
+                            setTimeout(()=>{
+                                window.location.replace(res.data.url)
+                            },1000)
+                        }else{
+                            const textNode = document.createTextNode(res.msg+res.cause)
+                            element.style.color = 'red'
+                            element.appendChild(textNode)
+                            console.log(res)
+                        }
+                    }
+                })
+            })
+        })
+        $(()=>{
+            $('#but-regist').on('click', ()=>{
+                $.ajax({
+                    url: 'http://127.0.0.1:8080/regist',
+                    type: 'GET',
+                    data: {
+                        account: $('#login-account').val(),
+                        password: $('#login-password').val()
+                    },
+                    success: (res)=>{
+                        console.log(res)
+                        const element = document.getElementById('tip')
+                        element.innerText = ''
+                        const textNode = document.createTextNode(res.msg+res.cause)
+                        if(res.code === 0){
+                            element.style.color = 'green'
+                        }else{
+                            element.style.color = 'red'
+                        }
+                        element.appendChild(textNode)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

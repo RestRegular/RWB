@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWB-index</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+            list-style: none;
+        }
+        .head-bar{
+            display: flex;
+            width: 100%;
+            background-color: #333;
+            height: 60px;
+            align-items: center;
+            position: sticky;
+            top: 0px;
+            z-index: 9999;
+        }
+        .head-item{
+            display: flex;
+            height: 100%;
+            width: 80px;
+            align-items: center;
+            justify-content: center;
+            color: aliceblue;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        .head-item:hover{
+            background-color: lightslategray;
+        }
+        .body-container{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .loop-img-container{
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            height: 280px;
+            background-color: #333333be;
+            /* justify-content: center; */
+            align-items: center;
+        }
+        .loop-img{
+            width: 1538px;
+            position: relative;
+        }
+        .order-container{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color:azure;
+        }
+        .order-card{
+            width: 45%;
+            height: 200px;
+            background-color: #333;
+            border-radius: 10px;
+            color: aliceblue;
+            margin-top: 20px;
+            padding: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .order-card span{
+            font-size: 28px;
+        }
+        .order-title-bar{
+            display: flex;
+            height: 20%;
+        }
+        .order-body{
+            display: flex;
+            flex-wrap: wrap;
+            height: 60%;
+            background-color: rgb(255, 214, 201);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .order-info{
+            font-size: 18px;
+            color: rgb(55, 57, 58);
+        }
+        .order-time{
+            font-size: 20px;
+            color: rgb(55, 57, 58);
+        }
+        .order-selector{
+            width: 70px;
+            height: 30px;
+            background-color: #333;
+            color: aliceblue;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .order-selector:hover{
+            background-color: #888888;
+        }
+    </style>
+    <script src="https://cdn.staticfile.net/jquery/3.7.1/jquery.js"></script>
+</head>
+<body>
+    <div class="head-bar">
+        &nbsp;&nbsp;
+        <img style="height: 70%;" src="http://127.0.0.1:8080/getresource?type=photo&object=logo" alt="logo">
+        <div class="head-item">我的</div>
+        <div class="head-item">首页</div>
+        <div class="head-item">关于</div>
+        <div style="flex: 1;"></div>
+        <div class="search-input" style="margin-left:auto;
+        font-size: 16px; height: 100%; display:flex; 
+        justify-content: center; align-items: center;
+        color: aliceblue;">搜索 &nbsp;<input type="text">
+        <button>search</button> &nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="body-container">
+        <div class="loop-img-container">
+            <div style="position: absolute;z-index: 10;color: aliceblue;font-size: 40px;transform: translate(0px, 115px);background: linear-gradient(to bottom, transparent, black);width: 100%;">
+                &nbsp;Welcome to RWB.
+            </div>
+            <img id="top-loop-img1" src="https://img.zcool.cn/community/037b5865659282a32f87512f6df9979.jpg" alt="" class="loop-img">
+            <img id="top-loop-img2" src="https://img.zcool.cn/community/038e56e5629afc86ac72548784d088a.jpg" alt="" class="loop-img">
+            <img id="top-loop-img3" src="https://img.zcool.cn/community/03810db56fdde8f6ac72579487be936.jpg" alt="" class="loop-img">
+        </div>
+        <div style="font-size: 30px;font-weight: bold;margin-top: 20px;">Orders</div>
+        <div id="order-container" class="order-container">
+
+        </div>
+        <div style="background-color: azure;width: 100%;overflow: hidden;" class="tool-container">
+            <div style="margin-top: 20px;height: 100%;overflow: hidden;display: flex;" class="joinus-card">
+                <div style="color: aliceblue;position: absolute;z-index: 10;justify-content: end;background: linear-gradient(to right, black, transparent);height: 81%;width: 30%;">
+                    <div style="position: absolute;bottom: 10px;left: 10px;font-size: 45px;">
+                        现在开始加入我们，一起Code To Order
+                    </div>
+                </div>
+                <div style="flex: 1;"></div>
+                <button style="z-index: 10;margin-right: 20px;width: 180px;height: 50px;font-size: 25px;margin-top: 600px;">立刻加入</button>
+                <img style="width: 100%;position: absolute;" src="https://www.cannytop.com/wp-content/uploads/2016/07/201607271640.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+        let startTime = null
+        const top_loop_img_item1 = document.getElementById('top-loop-img1')
+        const top_loop_img_item2 = document.getElementById('top-loop-img2')
+        const top_loop_img_item3 = document.getElementById('top-loop-img3')
+        let duration = 1000
+        function animationMoveX(element, startX, targetX){
+            let startTime = null
+
+            function animate(currentTime){
+                if(startTime === null){
+                    startTime = currentTime
+                }
+                const elapsedTime = currentTime - startTime
+                if(elapsedTime >= duration){
+                    element.style.right = `${targetX}px`
+                    return
+                }
+                const progress = elapsedTime/duration 
+                const currentX = startX + (targetX-startX)*progress
+                element.style.right = `${currentX}px`
+                requestAnimationFrame(animate)
+            }
+
+            requestAnimationFrame(animate)
+
+        }
+
+        $(document).ready(() => {
+            let index = 0
+            setInterval(() => {
+                setTimeout(()=>{
+                    animationMoveX(top_loop_img_item1, 0, 1538)
+                    animationMoveX(top_loop_img_item2, 0, 1538)
+                    setTimeout(()=>{
+                        animationMoveX(top_loop_img_item2, 1538, 1538*2)
+                        animationMoveX(top_loop_img_item3, 1538, 1538*2)
+                        setTimeout(()=>{
+                            animationMoveX(top_loop_img_item3, 1538*2, 1538*3)
+                            animationMoveX(top_loop_img_item1, -1538, 0)
+                        },3000)
+                    },3000)
+                },3000)
+                index++
+                setTimeout(()=>{},6000)
+            }, 15000)
+
+            $(()=>{
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:8080/getorders',
+                    data: {
+                        index: 0
+                    },
+                    success: (res) => {
+                        const container = document.getElementById('order-container')
+                        for(let i = 0; i < Math.min(4, res.data.length); i++){
+                            const data = res.data[i]
+                            let htmltext = res.htmltext
+                            htmltext = htmltext.replace('标题', data.ordertitle)
+                            htmltext = htmltext.replace('价格', '￥'+data.orderprice)
+                            htmltext = htmltext.replace('简介', data.ordershortinfo)
+                            htmltext = htmltext.replace('时间', data.ordertime+'h')
+                            container.insertAdjacentHTML('beforeend', htmltext)
+                        }
+                        if(res.data.length > 4){
+                            htmltext = '<div style="width: 100%;font-size: 40px;font-wight: bold;text-align: center;">...</div>'
+                            container.insertAdjacentHTML('beforeend', htmltext)
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

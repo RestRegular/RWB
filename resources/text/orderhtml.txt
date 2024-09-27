@@ -1,0 +1,17 @@
+<div class="order-card">
+    <div class="order-title-bar">
+        <span class="order-title">标题</span>
+        <span style="flex: 1;"></span>
+        <span class="order-price">价格</span>
+    </div>
+    <br>
+    <div class="order-body">
+        <div class="order-info">简介</div>
+        <div style="flex:1;"></div>
+        <div style="height: 100%;text-align: center;" class="order-right-box">
+            <div style="height: 50%;"></div>
+            <div class="order-time">时间</div>
+            <button id="order-selector" class="order-selector">查看</button>
+        </div>
+    </div>
+</div>
